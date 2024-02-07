@@ -15,7 +15,7 @@ function bePositive($arr) {
             //var_dump($x);
             $result = (string) abs(($x));
             echo $result . " ";
-            var_dump($result);
+            //var_dump($result);
         }
         else if (is_numeric($x)) {
             //var_dump($x);

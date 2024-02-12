@@ -12,14 +12,43 @@
         function getCurrentSelection() {
             setTimeout(() => {
                 //added this delay here as some solutions may require it to update properly (i.e., click code may complete before the navigation changes)
-                //TODO: add code for processing the current selection 
-
+                //TODO: add code for processing the current selection
                 //Note: likely you'll want to call updateCurrentPage towards the end
+                document.getElementsByTagName("h1");
+                
             }, 100);
         }
     </script>
     <style>
         /* TODO: make edits here */
+        h1{
+            text-transform: capitalize;
+            color:brown;
+            font-family:'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            font-weight: 1000;
+        }
+        h2{
+            color:blueviolet;
+            font-family:'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif;
+            font-style: italic;
+        }
+        a{
+            text-transform: capitalize;
+        }
+        nav ul {
+            background-color: beige;
+            display: flex;
+        }
+        nav ul li {
+            padding: 20px;
+            list-style: none;
+        }
+        a:hover{
+            color: red;
+        }
+        ul li{
+            list-style-type: '\2713';
+        }
     </style>
     <!-- make the necessary edits above this line -->
 

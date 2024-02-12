@@ -8,13 +8,22 @@
         window.addEventListener("load", () => {
             console.log("loaded via javascript");
             //TODO: add any extra onload processing you may need here
+            //var anchorTags = document.querySelector('a');
+
         });
         function getCurrentSelection() {
             setTimeout(() => {
                 //added this delay here as some solutions may require it to update properly (i.e., click code may complete before the navigation changes)
                 //TODO: add code for processing the current selection
                 //Note: likely you'll want to call updateCurrentPage towards the end
-                document.getElementsByTagName("h1");
+                var anchorTags = document.querySelector('a');
+                anchorTags.forEach(anchor => {
+                    anchor.addEventListener('click', function(event) {
+                    event.preventDefault();
+                    var link = this.textContent;
+                    updateCurrentPage(linkText);
+        });
+    });
                 
             }, 100);
         }

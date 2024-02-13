@@ -9,6 +9,7 @@
             console.log("loaded via javascript");
             //TODO: add any extra onload processing you may need here
             // var anchorTags = document.querySelectorAll('a');
+            getCurrentSelection();
 
         });
         function getCurrentSelection() {
@@ -16,9 +17,15 @@
                 //added this delay here as some solutions may require it to update properly (i.e., click code may complete before the navigation changes)
                 //TODO: add code for processing the current selection
                 //Note: likely you'll want to call updateCurrentPage towards the end
-                var anchorTags = document.querySelectorAll('a');
-                var link = document.getElementbyTag()
-                updateCurrentPage(link);
+                var links = document.getElementsByTagName('a');
+                for (let i = 0; i < links.length; i++) {
+                    links[i].addEventListener("click", myFunction);
+                }
+
+                function myFunction(){
+                    var text = this.textContent;
+                    updateCurrentPage(text);
+                }
             }, 100);
         }
     </script>

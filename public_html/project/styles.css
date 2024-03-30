@@ -1,23 +1,86 @@
 .alert-success {
-    background-color: green
+    background-color: green;
+    padding: 10px;
+    font-family:sans-serif;
+
 }
 
 .alert-warning {
     background-color: yellow;
+    padding: 10px;
+    font-family:sans-serif;
+
 }
 
 .alert-danger {
     background-color: red;
+    padding: 10px;
+    font-family:sans-serif;
+
 }
 
 .alert-info {
-    background-color: teal;
-}
-nav li{display: inline; background-color: rebeccapurple;}
-nav li a{color: hotpink}
-input{border-radius: 50%;}
-body{
-    background-color: hotpink;
-    color: rgb(153, 0, 153);
+    background-color: grey;
+    padding: 10px;
+    font-family:sans-serif;
 
 }
+/*nav li{display: inline; background-color: blanchedalmond;}*/
+nav{
+    margin-bottom: 25px;
+}
+nav li a{
+    color: black;
+    margin-left: 25px;
+    font-family:sans-serif;
+
+}
+input{
+    margin-top: 15x;
+    margin-bottom: 10px;
+}
+input[type=text]:focus {
+    border: 3px solid #555;
+}
+label{
+    font-family:sans-serif;
+}
+body{
+    background-color: #FBF8EF;
+    color: black;
+
+}
+nav ul {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+}
+
+/* Style the navigation links */
+nav a {
+    text-decoration: none;
+    color: #333; /* Change to your desired link color */
+    font-weight: bold;
+    transition: color 0.3s ease;
+}
+nav a:hover {
+    color: navy; /* Change to your desired hover color */
+}
+
+/* Add spacing between list items */
+nav li {
+    display: inline;
+    margin-bottom: 10px;
+}
+input[type=submit] {
+    transition-duration: 0.4s;
+    border-radius: 3px;
+    background-color: lightgray;
+    color: black;
+    padding: 5px;
+    font-family:sans-serif;
+}
+h3{
+    font-family: 'Calibri';
+}
+  

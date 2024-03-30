@@ -25,7 +25,7 @@ if (isset($_POST["save"])) {
         try {
             $stmt->execute($params);
             flash("Profile saved", "success");
-        } catch (Exception $e) {
+        } catch (PDOException $e) {
             users_check_duplicate($e->errorInfo);
         }
         //select fresh data from table
@@ -78,7 +78,7 @@ if (isset($_POST["save"])) {
                             flash("Current password is invalid", "warning");
                         }
                     }
-                } catch (Exception $e) {
+                } catch (PDOException $e) {
                     echo "<pre>" . var_export($e->errorInfo, true) . "</pre>";
                 }
             } else {
@@ -103,7 +103,7 @@ $username = get_username();
         <input type="text" name="username" id="username" value="<?php se($username); ?>" />
     </div>
     <!-- DO NOT PRELOAD PASSWORD -->
-    <div>Password Reset</div>
+    <h3>Password Reset</h3>
     <div class="mb-3">
         <label for="cp">Current Password</label>
         <input type="password" name="currentPassword" id="cp" />
@@ -129,7 +129,7 @@ $username = get_username();
         //example of using flash via javascript
         //find the flash container, create a new element, appendChild
         if (pw !== con) {
-            flash("Password and Confrim password must match", "warning");
+            flash("Password and Confirm password must match", "warning");
             isValid = false;
         }
         return isValid;

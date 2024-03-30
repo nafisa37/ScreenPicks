@@ -5,19 +5,19 @@ reset_session();
 <form onsubmit="return validate(this)" method="POST">
     <div>
         <label for="email">Email</label>
-        <input type="email" name="email" required />
+        <input type="text" name="email" required />
     </div>
     <div>
         <label for="username">Username</label>
-        <input type="text" name="username" required maxlength="30" />
+        <input type="text" name="username" required />
     </div>
     <div>
         <label for="pw">Password</label>
-        <input type="password" id="pw" name="password" required minlength="8" />
+        <input type="password" id="pw" name="password" required />
     </div>
     <div>
         <label for="confirm">Confirm</label>
-        <input type="password" name="confirm" required minlength="8" />
+        <input type="password" name="confirm" required />
     </div>
     <input type="submit" value="Register" />
 </form>
@@ -26,7 +26,33 @@ reset_session();
         //TODO 1: implement JavaScript validation
         //ensure it returns false for an error and true for success
 
-        return true;
+        let email = form.email.value;
+        let username = form.username.value;
+        let password = form.password.value;
+        let confirmpassword = form.confirm.value;
+        let isValid = true;
+
+        let validEmail = /^([a-z0-9_\.\+-]+)@([\da-z\.-]+)\.([a-z\.]{2,6})$/;
+        let validUsername = /^[a-zA-Z0-9_-]{3,16}$/;
+
+        if (!validEmail.test(email)) {
+            flash("Invalid email address", "warning");
+            isValid = false;
+        }
+        if (!validUsername.test(username)) {
+            flash("Username must only contain 3-16 characters a-z, 0-9, _, or -", "warning");
+            isValid = false;
+        }
+        if (password.length < 8) {
+            flash("Password must be at least 8 characters", "warning");
+            isValid = false;
+        }
+        if (password !== confirmpassword) {
+            flash("Passwords must match", "warning");
+            isValid = false;
+        }
+        return isValid;
+
     }
 </script>
 <?php

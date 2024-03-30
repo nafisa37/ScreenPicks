@@ -8,19 +8,49 @@ require(__DIR__ . "/../../partials/nav.php");
     </div>
     <div>
         <label for="pw">Password</label>
-        <input type="password" id="pw" name="password" required minlength="8" />
+        <input type="password" id="pw" name="password" required />
     </div>
     <input type="submit" value="Login" />
 </form>
 <script>
     function validate(form) {
-        let email = form.email.value;
         //TODO 1: implement JavaScript validation
         //ensure it returns false for an error and true for success
-
+        
         //TODO update clientside validation to check if it should
         //valid email or username
-        return true;
+
+        let emailUser = form.email.value;
+        let isValid = true;
+
+        let validEmail = /^([a-z0-9_\.\+-]+)@([\da-z\.-]+)\.([a-z\.]{2,6})$/;
+        let validUsername = /^[a-zA-Z0-9_-]{3,16}$/;
+
+        if (!validEmail.test(emailUser)) {
+            if (!validUsername.test(emailUser)) {
+            flash("Invalid username or password", "warning");
+            isValid = false;
+            }
+        }
+        return isValid;
+
+        // let email = form.email.value;
+        // let username = form.username.value;
+        // let isValid = true;
+
+        // let validEmail = /^([a-z0-9_\.\+-]+)@([\da-z\.-]+)\.([a-z\.]{2,6})$/;
+        // let validUsername = /^[a-zA-Z0-9_-]{3,16}$/;
+
+        // if (!validEmail.test(email)) {
+        //     console.log("js test");
+        //     flash("Invalid email address or username", "warning");
+        //     isValid = false;
+        // }
+        // if (!validUsername.test(username)) {
+        //     flash("Invalid email address or username", "warning");
+        //     isValid = false;
+        // }
+        // return isValid;
     }
 </script>
 <?php
@@ -55,7 +85,7 @@ if (isset($_POST["email"]) && isset($_POST["password"])) {
         }
     }
     if (empty($password)) {
-        flash("password must not be empty");
+        flash("Password must not be empty");
         $hasError = true;
     }
     if (!is_valid_password($password)) {

@@ -1,15 +1,17 @@
 <?php
 require(__DIR__ . "/../../partials/nav.php");
 reset_session();
+$email = se($_POST, "email", "", false);
+$username = se($_POST, "username", "", false);
 ?>
 <form onsubmit="return validate(this)" method="POST">
     <div>
         <label for="email">Email</label>
-        <input type="text" name="email" required />
+        <input type="text" name="email" value="<?php se($email); ?>" required />
     </div>
     <div>
         <label for="username">Username</label>
-        <input type="text" name="username" required />
+        <input type="text" name="username" value="<?php se($username); ?>" required />
     </div>
     <div>
         <label for="pw">Password</label>
@@ -35,6 +37,22 @@ reset_session();
         let validEmail = /^([a-z0-9_\.\+-]+)@([\da-z\.-]+)\.([a-z\.]{2,6})$/;
         let validUsername = /^[a-zA-Z0-9_-]{3,16}$/;
 
+        if (email.length < 1) {
+            flash("Email cannot be empty", "warning");
+            isValid = false;
+        }
+        if (username.length < 1) {
+            flash("Username cannot be empty", "warning");
+            isValid = false;
+        }
+        if (password.length < 1) {
+            flash("Password cannot be empty", "warning");
+            isValid = false;
+        }
+        if (confirmpassword.length < 1) {
+            flash("Confirm password cannot be empty", "warning");
+            isValid = false;
+        }
         if (!validEmail.test(email)) {
             flash("Invalid email address", "warning");
             isValid = false;

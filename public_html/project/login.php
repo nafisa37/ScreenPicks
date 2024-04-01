@@ -1,14 +1,16 @@
 <?php
 require(__DIR__ . "/../../partials/nav.php");
+
 ?>
+
 <form onsubmit="return validate(this)" method="POST">
     <div>
         <label for="email">Email/Username</label>
-        <input type="text" name="email" required />
+        <input type="text" name="email" required/>
     </div>
     <div>
         <label for="pw">Password</label>
-        <input type="password" id="pw" name="password" required />
+        <input type="password" id="pw" name="password" required minlength="8"/>
     </div>
     <input type="submit" value="Login" />
 </form>
@@ -21,10 +23,20 @@ require(__DIR__ . "/../../partials/nav.php");
         //valid email or username
 
         let emailUser = form.email.value;
+        let password = form.password.value;
         let isValid = true;
 
         let validEmail = /^([a-z0-9_\.\+-]+)@([\da-z\.-]+)\.([a-z\.]{2,6})$/;
         let validUsername = /^[a-zA-Z0-9_-]{3,16}$/;
+
+        if (emailUser.length < 1) {
+            flash("Email or username cannot be empty", "warning");
+            isValid = false;
+        }
+        if (password.length < 1) {
+            flash("Password cannot be empty", "warning");
+            isValid = false;
+        }
 
         if (!validEmail.test(emailUser)) {
             if (!validUsername.test(emailUser)) {
@@ -34,23 +46,6 @@ require(__DIR__ . "/../../partials/nav.php");
         }
         return isValid;
 
-        // let email = form.email.value;
-        // let username = form.username.value;
-        // let isValid = true;
-
-        // let validEmail = /^([a-z0-9_\.\+-]+)@([\da-z\.-]+)\.([a-z\.]{2,6})$/;
-        // let validUsername = /^[a-zA-Z0-9_-]{3,16}$/;
-
-        // if (!validEmail.test(email)) {
-        //     console.log("js test");
-        //     flash("Invalid email address or username", "warning");
-        //     isValid = false;
-        // }
-        // if (!validUsername.test(username)) {
-        //     flash("Invalid email address or username", "warning");
-        //     isValid = false;
-        // }
-        // return isValid;
     }
 </script>
 <?php
@@ -126,7 +121,7 @@ if (isset($_POST["email"]) && isset($_POST["password"])) {
                         flash("Invalid password");
                     }
                 } else {
-                    flash("Email not found");
+                    flash("Email/Username not found");
                 }
             }
         } catch (Exception $e) {

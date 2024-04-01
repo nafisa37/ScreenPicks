@@ -24,6 +24,7 @@ $username = se($_POST, "username", "", false);
     <input type="submit" value="Register" />
 </form>
 <script>
+    //na569, 4/1/24
     function validate(form) {
         //TODO 1: implement JavaScript validation
         //ensure it returns false for an error and true for success
@@ -70,9 +71,10 @@ $username = se($_POST, "username", "", false);
             isValid = false;
         }
         return isValid;
+        //na569,4/1/24
 
     }
-</script>
+</script> 
 <?php
 //TODO 2: add PHP Code
 if (isset($_POST["email"]) && isset($_POST["password"]) && isset($_POST["confirm"]) && isset($_POST["username"])) {
@@ -88,7 +90,7 @@ if (isset($_POST["email"]) && isset($_POST["password"]) && isset($_POST["confirm
     }
     //sanitize
     $email = sanitize_email($email);
-    //validate
+    //validate, na569, 4/1/24
     if (!is_valid_email($email)) {
         flash("Invalid email address", "danger");
         $hasError = true;
@@ -126,7 +128,7 @@ if (isset($_POST["email"]) && isset($_POST["password"]) && isset($_POST["confirm
         } catch (PDOException $e) {
             users_check_duplicate($e->errorInfo);
         }
-    }
+    } //na569, 4/1/24
 }
 ?>
 <?php

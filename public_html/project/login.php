@@ -21,6 +21,7 @@ require(__DIR__ . "/../../partials/nav.php");
         
         //TODO update clientside validation to check if it should
         //valid email or username
+        //na569, 4/2/24
 
         let emailUser = form.email.value;
         let password = form.password.value;
@@ -59,7 +60,7 @@ if (isset($_POST["email"]) && isset($_POST["password"])) {
     if (empty($email)) {
         flash("Email must not be empty");
         $hasError = true;
-    }
+    } //na569, 4/1/24
     if (str_contains($email, "@")) {
         //sanitize
         //$email = filter_var($email, FILTER_SANITIZE_EMAIL);

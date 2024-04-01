@@ -25,7 +25,7 @@ if (isset($_POST["save"])) {
         try {
             $stmt->execute($params);
             flash("Profile saved", "success");
-        } catch (Exception $e) {
+        } catch (PDOException $e) {
             users_check_duplicate($e->errorInfo);
         }
         //select fresh data from table
@@ -78,7 +78,7 @@ if (isset($_POST["save"])) {
                             flash("Current password is invalid", "warning");
                         }
                     }
-                } catch (Exception $e) {
+                } catch (PDOException $e) {
                     echo "<pre>" . var_export($e->errorInfo, true) . "</pre>";
                 }
             } else {
@@ -96,14 +96,14 @@ $username = get_username();
 <form method="POST" onsubmit="return validate(this);">
     <div class="mb-3">
         <label for="email">Email</label>
-        <input type="email" name="email" id="email" value="<?php se($email); ?>" />
+        <input type="text" name="email" id="email" value="<?php se($email); ?>" />
     </div>
     <div class="mb-3">
         <label for="username">Username</label>
         <input type="text" name="username" id="username" value="<?php se($username); ?>" />
     </div>
     <!-- DO NOT PRELOAD PASSWORD -->
-    <div>Password Reset</div>
+    <h3>Password Reset</h3>
     <div class="mb-3">
         <label for="cp">Current Password</label>
         <input type="password" name="currentPassword" id="cp" />
@@ -121,15 +121,57 @@ $username = get_username();
 
 <script>
     function validate(form) {
-        let pw = form.newPassword.value;
-        let con = form.confirmPassword.value;
-        let isValid = true;
-        //TODO add other client side validation....
+        // let pw = form.newPassword.value;
+        // let con = form.confirmPassword.value;
+        // let isValid = true;
+        // //TODO add other client side validation....
 
-        //example of using flash via javascript
-        //find the flash container, create a new element, appendChild
-        if (pw !== con) {
-            flash("Password and Confrim password must match", "warning");
+        // //example of using flash via javascript
+        // //find the flash container, create a new element, appendChild
+        // if (pw !== con) {
+        //     flash("Password and Confirm password must match", "warning");
+        //     isValid = false;
+        // }
+        // return isValid;
+        let email = form.email.value;
+        let username = form.username.value;
+        let password = form.password.value;
+        let confirmpassword = form.confirm.value;
+        let isValid = true;
+
+        let validEmail = /^([a-z0-9_\.\+-]+)@([\da-z\.-]+)\.([a-z\.]{2,6})$/;
+        let validUsername = /^[a-zA-Z0-9_-]{3,16}$/;
+
+        if (email.length < 1) {
+            flash("Email cannot be empty", "warning");
+            isValid = false;
+        }
+        if (username.length < 1) {
+            flash("Username cannot be empty", "warning");
+            isValid = false;
+        }
+        if (password.length < 1) {
+            flash("Password cannot be empty", "warning");
+            isValid = false;
+        }
+        if (confirmpassword.length < 1) {
+            flash("Confirm password cannot be empty", "warning");
+            isValid = false;
+        }
+        if (!validEmail.test(email)) {
+            flash("Invalid email address", "warning");
+            isValid = false;
+        }
+        if (!validUsername.test(username)) {
+            flash("Username must only contain 3-16 characters a-z, 0-9, _, or -", "warning");
+            isValid = false;
+        }
+        if (password.length < 8) {
+            flash("Password must be at least 8 characters", "warning");
+            isValid = false;
+        }
+        if (password !== confirmpassword) {
+            flash("Passwords must match", "warning");
             isValid = false;
         }
         return isValid;

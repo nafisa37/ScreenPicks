@@ -30,17 +30,17 @@ require(__DIR__ . "/../../partials/nav.php");
         let validUsername = /^[a-zA-Z0-9_-]{3,16}$/;
 
         if (emailUser.length < 1) {
-            flash("Email or username cannot be empty", "warning");
+            flash("[Client] Email or username cannot be empty", "warning");
             isValid = false;
         }
         if (password.length < 1) {
-            flash("Password cannot be empty", "warning");
+            flash("[Client] Password cannot be empty", "warning");
             isValid = false;
         }
 
         if (!validEmail.test(emailUser)) {
             if (!validUsername.test(emailUser)) {
-            flash("Invalid username or password", "warning");
+            flash("[Client] Invalid username or password", "warning");
             isValid = false;
             }
         }

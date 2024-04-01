@@ -143,35 +143,35 @@ $username = get_username();
         let validUsername = /^[a-zA-Z0-9_-]{3,16}$/;
 
         if (email.length < 1) {
-            flash("Email cannot be empty", "warning");
+            flash("[Client] Email cannot be empty", "warning");
             isValid = false;
         }
         if (username.length < 1) {
-            flash("Username cannot be empty", "warning");
+            flash("[Client] Username cannot be empty", "warning");
             isValid = false;
         }
         if (password.length < 1) {
-            flash("Password cannot be empty", "warning");
+            flash("[Client] Password cannot be empty", "warning");
             isValid = false;
         }
         if (confirmpassword.length < 1) {
-            flash("Confirm password cannot be empty", "warning");
+            flash("[Client] Confirm password cannot be empty", "warning");
             isValid = false;
         }
         if (!validEmail.test(email)) {
-            flash("Invalid email address", "warning");
+            flash("[Client] Invalid email address", "warning");
             isValid = false;
         }
         if (!validUsername.test(username)) {
-            flash("Username must only contain 3-16 characters a-z, 0-9, _, or -", "warning");
+            flash("[Client] Username must only contain 3-16 characters a-z, 0-9, _, or -", "warning");
             isValid = false;
         }
         if (password.length < 8) {
-            flash("Password must be at least 8 characters", "warning");
+            flash("[Client] Password must be at least 8 characters", "warning");
             isValid = false;
         }
         if (password !== confirmpassword) {
-            flash("Passwords must match", "warning");
+            flash("[Client] Passwords must match", "warning");
             isValid = false;
         }
         return isValid;

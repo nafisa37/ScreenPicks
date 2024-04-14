@@ -22,10 +22,9 @@ if (($localWorks && $domain == "localhost") || $domain != "localhost") {
 }
 session_start();
 
-
 ?>
 <!-- include css and js files -->
-<link rel="stylesheet" href="<?php echo get_url('/styles.css'); ?>">
+<link rel="stylesheet" href="<?php echo get_url('styles.css'); ?>">
 <script src="<?php echo get_url('helpers.js'); ?>"></script>
 <nav>
     <ul>

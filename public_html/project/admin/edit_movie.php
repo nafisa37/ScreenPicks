@@ -4,13 +4,10 @@ is_logged_in(true);
 ?>
 
 <?php
-$title = "";
-$genre = "";
-$released = "";
-$synopsis = "";
 
-if (isset($_SESSION["movie_id"])) {
-    $movie_id = $_SESSION["movie_id"];
+if (isset($_GET["id"])) {
+
+    $movie_id = $_GET["id"];
 
     $db = getDB();
     $stmt = $db->prepare("SELECT title, genre, released, synopsis FROM Movies WHERE id = :id");
@@ -68,7 +65,6 @@ if (isset($_POST["save"])) {
         <?php render_button(["text" => "Update Movie", "type" => "submit"]); ?>
     </form>
 </div>
-
 
 <?php
 require_once(__DIR__ . "/../../../partials/flash.php");

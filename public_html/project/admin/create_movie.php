@@ -17,7 +17,7 @@ if (isset($_POST["action"])) {
     $quote = [];
     if ($movie) {
         if ($action === "fetch") {
-            $result = fetch_quote($movie);
+            $result = fetch_movie($movie);
             error_log("Data from API" . var_export($result, true));
             if ($result) {
                 $quote = $result;
@@ -61,6 +61,8 @@ if (isset($_POST["action"])) {
 
 //TODO handle manual create movie
 ?>
+
+
 <div class="container-fluid">
     <h3>Fetch or Create Movie</h3>
     <ul class="nav nav-tabs">
@@ -79,7 +81,7 @@ if (isset($_POST["action"])) {
         </form>
     </div>
     <div id="create" style="display: none;" class="tab-target">
-        <form method="POST">
+        <form onsubmit="return validate(this)" method="POST">
 
             <?php render_input(["type" => "text", "name" => "movie", "placeholder" => "Movie Title", "label" => "Enter a Movie Title", "rules" => ["required" => "required"]]); ?>
             <?php render_input(["type" => "text", "name" => "genre", "placeholder" => "Genre", "label" => "Enter a Genre", "rules" => ["required" => "required"]]); ?>
@@ -102,6 +104,85 @@ if (isset($_POST["action"])) {
         }
     }
 </script>
+
+<script>
+    function validate(form) {
+        console.log("hello");
+        let title = form.movie.value;
+        let genre = form.genre.value;
+        let released = form.released.value;
+        let synopsis = form.synopsis.value;
+        let isValid = true;
+
+        // Regular expression to match exactly four digits for the release year
+        let validYear = /^\d{4}$/;
+
+        if (title.length < 1) {
+            flash("[Client] Title cannot be empty", "warning");
+            isValid = false;
+        }
+        if (genre.length < 1) {
+            flash("[Client] Genre cannot be empty", "warning");
+            isValid = false;
+        }
+        if (released.length < 1) {
+            flash("[Client] Release year cannot be empty", "warning");
+            isValid = false;
+        }
+        if (!validYear.test(released)) {
+            flash("[Client] Release year must be a four-digit number", "warning");
+            isValid = false;
+        }
+        if (synopsis.length < 1) {
+            flash("[Client] Synopsis cannot be empty", "warning");
+            isValid = false;
+        }
+
+        return isValid;
+    }
+</script>
+
+<?php
+if (isset($_POST["save"])) {
+    $title = se($_POST, "title", null, false);
+    $genre = se($_POST, "genre", null, false);
+    $released = se($_POST, "released", null, false);
+    $synopsis = se($_POST, "synopsis", null, false);
+    $hasError = false;
+
+    if (empty($title)) {
+        flash("Title is required", "danger");
+        $hasError = true;
+    }
+
+    if (empty($genre)) {
+        flash("Genre is required", "danger");
+        $hasError = true;
+    }
+
+    if (empty($released) || !is_numeric($released) || strlen($released) !== 4) {
+        flash("Invalid release year", "danger");
+        $hasError = true;
+    }
+
+    if (empty($synopsis)) {
+        flash("Synopsis is required", "danger");
+        $hasError = true;
+    }
+
+    if (!$hasError) {
+        $db = getDB();
+        $stmt = $db->prepare("INSERT INTO Movies (title, genre, released, synopsis) VALUES(:title, :genre, :released, :synopsis)");
+        try {
+            $stmt->execute([":title" => $title, ":genre" => $genre, ":released" => $released, ":synopsis" => $synopsis]);
+            flash("Successfully recorded!", "success");
+        } catch (PDOException $e) {
+            //users_check_duplicate($e->errorInfo);
+        }
+    }
+}
+
+?>
 
 <?php
 //note we need to go up 1 more directory

@@ -20,14 +20,14 @@ try {
         $results = $r;
     }
 } catch (PDOException $e) {
-    error_log("Error fetching stocks " . var_export($e, true));
+    error_log("Error fetching movies " . var_export($e, true));
     flash("Unhandled error occurred", "danger");
 }
 
-$table = ["data" => $results, "title" => "Latest Movies", "ignored_columns" => ["id"], "edit_url" => get_url("admin/movie.php")];
+$table = ["data" => $results, "title" => "Latest Movies", "ignored_columns" => ["id"], "edit_url" => get_url("admin/edit_movie.php")];
 ?>
 <div class="container-fluid">
-    <h3>List Movies</h3>
+    <!-- <h3>List Movies</h3> -->
     <?php render_table($table); ?>
 </div>
 

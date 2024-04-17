@@ -1,8 +1,8 @@
 <?php
 
-function fetch_quote($movie)
+function fetch_movie($movie)
 {
-    $data = ["function" => "GLOBAL_QUOTE", "movie" => $movie, "datatype" => "json"];
+    $data = ["function" => "MOVIE_DETAILS", "movie" => $movie, "datatype" => "json"];
     $endpoint = "https://ott-details.p.rapidapi.com/search";
     $isRapidAPI = true;
     $rapidAPIHost = "ott-details.p.rapidapi.com";
@@ -12,8 +12,8 @@ function fetch_quote($movie)
     } else {
         $result = [];
     }
-    if (isset($result["Global Quote"])) {
-        $quote = $result["Global Quote"];
+    if (isset($result["Movie Details"])) {
+        $quote = $result["Movie Details"];
         $quote = array_reduce(
             array_keys($quote),
             function ($temp, $key) use ($quote) {

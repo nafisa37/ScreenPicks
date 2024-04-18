@@ -33,9 +33,9 @@ if ($movieId !== null) {
         //put them all in div elements to space out the buttons vertically stacked
 
     } else {
-        echo "<p>Movie not found</p>";
+        echo "<p><strong>Movie not found</p>";
     }
 } else {
-    echo "<p>Invalid movie ID</p>";
+    echo "<p><strong>Invalid movie ID</p>";
 }
 ?>

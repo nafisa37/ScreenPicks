@@ -172,7 +172,7 @@ if (isset($_POST["save"])) {
 
     if (!$hasError) {
         $db = getDB();
-        $stmt = $db->prepare("INSERT INTO Movies (title, genre, released, synopsis) VALUES(:title, :genre, :released, :synopsis)");
+        $stmt = $db->prepare("INSERT INTO Movies (title, genre, released, synopsis) VALUES (:title, :genre, :released, :synopsis)");
         try {
             $stmt->execute([":title" => $title, ":genre" => $genre, ":released" => $released, ":synopsis" => $synopsis]);
             flash("Successfully recorded!", "success");

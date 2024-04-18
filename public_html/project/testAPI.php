@@ -4,7 +4,7 @@ require(__DIR__ . "/../../partials/nav.php");
 $result = [];
 if (isset($_GET["movie"])) {
     //function=GLOBAL_QUOTE&movie=MSFT&datatype=json
-    $data = ["function" => "MOVIW_DETAILS", "title" => $_GET["movie"], "datatype" => "json"];
+    $data = ["function" => "MOVIE_DETAILS", "title" => $_GET["movie"], "datatype" => "json"];
     //$endpoint = "https://ott-details.p.rapidapi.com/advancedsearch";
     $endpoint = "https://ott-details.p.rapidapi.com/search";
     //$endpoint = "https://ott-details.p.rapidapi.com/advancedsearch?start_year=1970&end_year=2020&min_imdb=6&max_imdb=7.8&genre=action&language=english&type=movie&sort=latest&page=1";
@@ -50,7 +50,7 @@ foreach ($result as $index => $movie) {
 //var_dump($result);
 $db = getDB();
 $opts = ["debug" => true, "update_duplicate" => false, "columns_to_update"=>[]];
-var_dump($result);
+//var_dump($result);
 $query = insert("Movies", $result, $opts);
 var_export($query);
 }

@@ -60,8 +60,8 @@
             <?php if (is_array($_data) && count($_data) > 0) : ?>
                 <?php foreach ($_data as $row) : ?>
                     <tr>
-                        <?php foreach (array_values($row) as $v) : ?>
-                            <?php if (!in_array($v, $_ignored_columns)) : ?>
+                        <?php foreach ($row as $k => $v) : ?>
+                            <?php if (!in_array($k, $_ignored_columns)) : ?>
                                 <td><?php se($v); ?></td>
                             <?php endif; ?>
                         <?php endforeach; ?>
@@ -95,4 +95,3 @@
         </tbody>
     </table>
 <?php endif; ?>
-

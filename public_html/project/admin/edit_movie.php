@@ -39,7 +39,7 @@ if (isset($_POST["save"])) {
             ":genre" => $genre,
             ":released" => $released,
             ":synopsis" => $synopsis,
-            ":id" => $_SESSION["movie_id"]
+            ":id" => $movie_id
         ];
 
         $db = getDB();

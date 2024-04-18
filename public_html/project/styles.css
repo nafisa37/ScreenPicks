@@ -89,3 +89,7 @@ h3{
 .nav-link{
     color: black !important;
 }
+.btn-secondary{
+    --bs-btn-color: black !important;
+    --bs-btn-bg: pink !important;
+}

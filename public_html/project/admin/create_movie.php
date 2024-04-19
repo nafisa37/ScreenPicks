@@ -108,6 +108,7 @@ if (isset($_POST["action"])) {
 <script>
     function validate(form) {
         //console.log("hello");
+
         let title = form.title.value;
         let genre = form.genre.value;
         let released = form.released.value;
@@ -141,7 +142,6 @@ if (isset($_POST["action"])) {
         return isValid;
     }
 </script>
-
 <?php
 if (isset($_POST["save"])) {
     $title = se($_POST, "title", null, false);

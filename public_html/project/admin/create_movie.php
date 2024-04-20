@@ -1,6 +1,8 @@
 <?php
 //note we need to go up 1 more directory
 require(__DIR__ . "/../../../partials/nav.php");
+//require_once(__DIR__ . "/../../../lib/movie_api.php");
+
 
 if (!has_role("Admin")) {
     flash("You don't have permission to view this page", "warning");
@@ -13,7 +15,7 @@ if (!has_role("Admin")) {
 //TODO handle movie fetch
 if (isset($_POST["action"])) {
     $action = $_POST["action"];
-    $movie =  strtoupper(se($_POST, "title", "", false));
+    $movie =  strtoupper(se($_POST, "movie", "", false));
     $quote = [];
     if ($movie) {
         if ($action === "fetch") {
@@ -21,6 +23,7 @@ if (isset($_POST["action"])) {
             error_log("Data from API" . var_export($result, true));
             if ($result) {
                 $quote = $result;
+                $quote["origin"] = 1;
             }
         } else if ($action === "create") {
             foreach ($_POST as $k => $v) {
@@ -54,6 +57,9 @@ if (isset($_POST["action"])) {
         $stmt->execute($params);
         flash("Inserted record " . $db->lastInsertId(), "success");
     } catch (PDOException $e) {
+        if ($e->errorInfo[1] === 1062) {
+            flash("A movie with the same title already exists", "warning");
+        }
         error_log("Something broke with the query" . var_export($e, true));
         flash("An error occurred", "danger");
     }
@@ -67,10 +73,10 @@ if (isset($_POST["action"])) {
     <h3>Fetch or Create Movie</h3>
     <ul class="nav nav-tabs">
         <li class="nav-item">
-            <a class="nav-link bg-success" href="#" onclick="switchTab('create')">Fetch</a>
+            <a class="nav-link bg-success" href="#" onclick="switchTab('fetch')">Create</a>
         </li>
         <li class="nav-item">
-            <a class="nav-link bg-success" href="#" onclick="switchTab('fetch')">Create</a>
+            <a class="nav-link bg-success" href="#" onclick="switchTab('create')">Fetch</a>
         </li>
     </ul>
     <div id="fetch" class="tab-target">

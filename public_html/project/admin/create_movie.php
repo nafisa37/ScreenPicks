@@ -13,7 +13,7 @@ if (!has_role("Admin")) {
 //TODO handle movie fetch
 if (isset($_POST["action"])) {
     $action = $_POST["action"];
-    $movie =  strtoupper(se($_POST, "movie", "", false));
+    $movie =  strtoupper(se($_POST, "title", "", false));
     $quote = [];
     if ($movie) {
         if ($action === "fetch") {
@@ -75,7 +75,7 @@ if (isset($_POST["action"])) {
     </ul>
     <div id="fetch" class="tab-target">
         <form method="POST">
-            <?php render_input(["type" => "search", "name" => "movie", "placeholder" => "Search Movie Title", "rules" => ["required" => "required"]]); ?>
+            <?php render_input(["type" => "search", "name" => "title", "placeholder" => "Search Movie Title", "rules" => ["required" => "required"]]); ?>
             <?php render_input(["type" => "hidden", "name" => "action", "value" => "fetch"]); ?>
             <?php render_button(["text" => "Search", "type" => "submit",]); ?>
         </form>
@@ -83,7 +83,7 @@ if (isset($_POST["action"])) {
     <div id="create" style="display: none;" class="tab-target">
         <form onsubmit="return validate(this)" method="POST">
 
-            <?php render_input(["type" => "text", "name" => "movie", "placeholder" => "Movie Title", "label" => "Enter a Movie Title", "rules" => ["required" => "required"]]); ?>
+            <?php render_input(["type" => "text", "name" => "title", "placeholder" => "Movie Title", "label" => "Enter a Movie Title", "rules" => ["required" => "required"]]); ?>
             <?php render_input(["type" => "text", "name" => "genre", "placeholder" => "Genre", "label" => "Enter a Genre", "rules" => ["required" => "required"]]); ?>
             <?php render_input(["type" => "number", "name" => "released", "placeholder" => "Release Date", "label" => "Enter a Year", "rules" => ["required" => "required"]]); ?>
             <?php render_input(["type" => "text", "name" => "synopsis", "placeholder" => "Synopsis", "label" => "Enter a Synopsis", "rules" => ["required" => "required"]]); ?>

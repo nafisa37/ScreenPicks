@@ -25,6 +25,25 @@ if (isset($_GET["id"])) {
 }
 ?>
 
+<script>
+    function validate(form) {
+        //console.log("hello");
+
+        let released = form.released.value;
+        let isValid = true;
+
+        // Regex to match four digits for the release year
+        let validYear = /^\d{4}$/;
+
+        if (!validYear.test(released)) {
+            flash("[Client] Release year must be a four-digit number", "warning");
+            isValid = false;
+        }
+
+        return isValid;
+    }
+</script>
+
 <?php
 if (isset($_POST["save"])) {
     $title = se($_POST, "title", null, false);
@@ -32,6 +51,11 @@ if (isset($_POST["save"])) {
     $released = se($_POST, "released", null, false);
     $synopsis = se($_POST, "synopsis", null, false);
     $hasError = false;
+
+    if (!preg_match('/^\d{4}$/', $released)) {
+        flash("Release year must be a four-digit number", "warning");
+        $hasError = true;
+    }
 
     if (!$hasError) {
         $params = [

@@ -7,15 +7,12 @@ if (!has_role("Admin")) {
     die(header("Location: $BASE_PATH" . "/home.php"));
 }
 
-// Retrieve search parameters from GET request
 $genre = isset($_GET['genre']) ? $_GET['genre'] : '';
 $title = isset($_GET['title']) ? $_GET['title'] : '';
 $released = isset($_GET['released']) ? $_GET['released'] : '';
-$limit = isset($_GET['limit']) ? intval($_GET['limit']) : 10; // Default to 10 if not provided or invalid
-// Ensure the limit is within the specified range
+$limit = isset($_GET['limit']) ? intval($_GET['limit']) : 10; // Default to 10
 $limit = max(1, min($limit, 100));
 
-// Construct dynamic SQL query based on search parameters
 $query = "SELECT id, title AS Title, genre as Genre, released as Released, synopsis as Synopsis FROM `Movies` WHERE 1=1";
 $params = [];
 if (!empty($genre)) {
@@ -32,7 +29,6 @@ if (!empty($released)) {
 }
 $query .= " ORDER BY created DESC LIMIT $limit";
 
-// Execute the query with parameters
 $db = getDB();
 $stmt = $db->prepare($query);
 try {
@@ -43,6 +39,32 @@ try {
     flash("Unhandled error occurred", "danger");
 }
 
+?>
+
+<script>
+//js validation
+    let limit = form.limit.value;
+    let isValid = true;
+
+    function validate() {
+        var limit = document.getElementById('limit').value;
+        if (limit < 1 || limit > 100 || isNaN(limit)) { // Check if limit is not between 1 and 100 or not a number
+            flash("[Client] Limit must be a number between 1 and 100", "warning");
+            isValid = false;
+        }
+
+        return isValid;
+    }
+</script>
+
+<?php
+//php validation
+if (isset($_GET['limit'])) {
+    $limit = intval($_GET['limit']);
+    if ($limit < 1 || $limit > 100) {
+        flash("Limit must be a number between 1 and 100", "warning");
+    }
+}
 ?>
 
 <!-- Search Form -->
@@ -69,47 +91,39 @@ try {
 
 <?php
 $table = ["data" => $results, "title" => "Search Movies", "ignored_columns" => ["id"], "edit_url" => get_url("admin/edit_movie.php")];
-
-$genre = isset($_GET['genre']) ? $_GET['genre'] : '';
-$released = isset($_GET['released']) ? $_GET['released'] : '';
-$title = isset($_GET['title']) ? $_GET['title'] : '';
-$limit = isset($_GET['limit']) ? intval($_GET['limit']) : 10;
-
-$_SESSION['filter'] = [
-    'genre' => $genre,
-    'released' => $released,
-    'title' => $title,
-    'limit' => $limit
-];
 ?>
-<div class="container-fluid">
-    <table class="table">
-        <thead>
-            <tr>
-                <th>Title</th>
-                <th>Genre</th>
-                <th>Released</th>
-                <th>Synopsis</th>
-                <th>Actions</th>
-            </tr>
-        </thead>
-        <tbody>
-            <?php foreach ($results as $row) : ?>
+<?php if (empty($results)) : ?>
+    <div>No results available.</div>
+<?php else : ?>
+    <div class="container-fluid">
+        <table class="table">
+            <thead>
                 <tr>
-                    <td><?php echo htmlspecialchars($row['Title']); ?></td>
-                    <td><?php echo htmlspecialchars($row['Genre']); ?></td>
-                    <td><?php echo htmlspecialchars($row['Released']); ?></td>
-                    <td><?php echo htmlspecialchars($row['Synopsis']); ?></td>
-                    <td>
-                        <a href="movie_details.php?id=<?php echo $row['id']; ?>" class="btn btn-secondary">View Details</a>
-                        <a href="edit_movie.php?id=<?php echo $row['id']; ?>" class="btn btn-secondary">Edit</a>
-                        <a href="delete_movie.php?id=<?php echo $row['id']; ?>" class="btn btn-secondary">Delete</a>
-                    </td>
+                    <th>Title</th>
+                    <th>Genre</th>
+                    <th>Released</th>
+                    <th>Synopsis</th>
+                    <th>Actions</th>
                 </tr>
-            <?php endforeach; ?>
-        </tbody>
-    </table>
-</div>
+            </thead>
+            <tbody>
+                <?php foreach ($results as $row) : ?>
+                    <tr>
+                        <td><?php echo htmlspecialchars($row['Title']); ?></td>
+                        <td><?php echo htmlspecialchars($row['Genre']); ?></td>
+                        <td><?php echo htmlspecialchars($row['Released']); ?></td>
+                        <td><?php echo htmlspecialchars($row['Synopsis']); ?></td>
+                        <td>
+                            <a href="movie_details.php?id=<?php echo $row['id']; ?>" class="btn btn-secondary">View Details</a>
+                            <a href="edit_movie.php?id=<?php echo $row['id']; ?>" class="btn btn-secondary">Edit</a>
+                            <a href="delete_movie.php?id=<?php echo $row['id']; ?>" class="btn btn-secondary">Delete</a>
+                        </td>
+                    </tr>
+                <?php endforeach; ?>
+            </tbody>
+        </table>
+    </div>
+<?php endif; ?>
 
 <?php
 //note we need to go up 1 more directory

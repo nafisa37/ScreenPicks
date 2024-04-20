@@ -90,7 +90,6 @@ if (isset($_GET['limit'])) {
 </form>
 
 <?php
-// Display filtered results in table
 $table = ["data" => $results, "title" => "Search Movies", "ignored_columns" => ["id"], "edit_url" => get_url("admin/edit_movie.php")];
 ?>
 <?php if (empty($results)) : ?>

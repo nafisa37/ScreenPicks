@@ -23,4 +23,22 @@ try {
     error_log("Error deleting movie $id" . var_export($e, true));
     flash("Error deleting record", "danger");
 }
-die(header("Location: " . get_url("admin/list_movies.php")));
+
+if (isset($_SERVER['HTTP_REFERER'])) {
+    $previousPage = $_SERVER['HTTP_REFERER'];
+} else {
+    $previousPage = get_url("admin/list_movies.php");
+}
+
+if (!empty($_SESSION['filter'])) {
+    $filterParams = http_build_query($_SESSION['filter']);
+    if (strpos($previousPage, '?') !== false) {
+        $separator = '&';
+    } else {
+        $separator = '?';
+    }
+    $previousPage .= $separator . $filterParams;
+}
+
+die(header("Location: " . $previousPage));
+//die(header("Location: " . get_url("admin/list_movies.php")));

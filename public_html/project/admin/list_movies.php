@@ -68,9 +68,19 @@ try {
 </form>
 
 <?php
-// Display filtered results in table
 $table = ["data" => $results, "title" => "Search Movies", "ignored_columns" => ["id"], "edit_url" => get_url("admin/edit_movie.php")];
 
+$genre = isset($_GET['genre']) ? $_GET['genre'] : '';
+$released = isset($_GET['released']) ? $_GET['released'] : '';
+$title = isset($_GET['title']) ? $_GET['title'] : '';
+$limit = isset($_GET['limit']) ? intval($_GET['limit']) : 10;
+
+$_SESSION['filter'] = [
+    'genre' => $genre,
+    'released' => $released,
+    'title' => $title,
+    'limit' => $limit
+];
 ?>
 <div class="container-fluid">
     <table class="table">

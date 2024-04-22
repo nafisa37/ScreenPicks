@@ -31,3 +31,5 @@ require(__DIR__ . "/load_api_keys.php");
 require(__DIR__ . "/api_helper.php");
 
 require(__DIR__ . "/db_helpers.php");
+
+require(__DIR__ . "/movie_api.php");

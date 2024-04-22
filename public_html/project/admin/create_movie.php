@@ -15,7 +15,7 @@ if (!has_role("Admin")) {
 //TODO handle movie fetch
 if (isset($_POST["action"])) {
     $action = $_POST["action"];
-    $movie =  strtoupper(se($_POST, "movie", "", false));
+    $movie =  strtoupper(se($_POST, "title", "", false));
     $quote = [];
     if ($movie) {
         if ($action === "fetch") {
@@ -23,7 +23,7 @@ if (isset($_POST["action"])) {
             error_log("Data from API" . var_export($result, true));
             if ($result) {
                 $quote = $result;
-                $quote["origin"] = 1;
+                $quote["is_api"] = 0;
             }
         } else if ($action === "create") {
             foreach ($_POST as $k => $v) {

@@ -17,13 +17,20 @@ if (isset($_POST["action"])) {
     $action = $_POST["action"];
     $movie =  strtoupper(se($_POST, "title", "", false));
     $quote = [];
+    $uniqueMovie = [];
     if ($movie) {
         if ($action === "fetch") {
             $result = fetch_movie($movie);
             error_log("Data from API" . var_export($result, true));
             if ($result) {
-                $quote = $result;
-                $quote["is_api"] = 0;
+                foreach ($result as $movie) {
+                    $title = $movie['title'];
+                    if (!in_array($title, $uniqueMovie)) {
+                        $quote = $movie;
+                        //$quote["is_api"] = 0; // Set is_api to 0 when fetching from API
+                        $uniqueMovie[] = $title; // Add the movie title to the list of unique titles
+                    }
+                }
             }
         } else if ($action === "create") {
             foreach ($_POST as $k => $v) {
@@ -31,6 +38,7 @@ if (isset($_POST["action"])) {
                     unset($_POST[$k]);
                 }
                 $quote = $_POST;
+                $quote["is_api"] = 0;
                 error_log("Cleaned up POST: " . var_export($quote, true));
             }
         }

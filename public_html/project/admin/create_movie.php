@@ -3,7 +3,7 @@
 require(__DIR__ . "/../../../partials/nav.php");
 //require_once(__DIR__ . "/../../../lib/movie_api.php");
 
-
+//na569, 4.24.24
 if (!has_role("Admin")) {
     flash("You don't have permission to view this page", "warning");
     die(header("Location: $BASE_PATH" . "/home.php"));
@@ -12,7 +12,7 @@ if (!has_role("Admin")) {
 
 <?php
 
-//TODO handle movie fetch
+//TODO handle movie fetch //na569, 4.24.24
 if (isset($_POST["action"])) {
     $action = $_POST["action"];
     $movie =  strtoupper(se($_POST, "title", "", false));
@@ -27,8 +27,8 @@ if (isset($_POST["action"])) {
                     $title = $movie['title'];
                     if (!in_array($title, $uniqueMovie)) {
                         $quote = $movie;
-                        //$quote["is_api"] = 0; // Set is_api to 0 when fetching from API
-                        $uniqueMovie[] = $title; // Add the movie title to the list of unique titles
+                        //$quote["is_api"] =
+                        $uniqueMovie[] = $title;
                     }
                 }
             }
@@ -76,7 +76,7 @@ if (isset($_POST["action"])) {
 //TODO handle manual create movie
 ?>
 
-
+//na569, 4.24.24
 <div class="container-fluid">
     <h3>Fetch or Create Movie</h3>
     <ul class="nav nav-tabs">
@@ -155,7 +155,7 @@ if (isset($_POST["action"])) {
 
         return isValid;
     }
-</script>
+</script> //na569, 4.24.24
 <?php
 if (isset($_POST["save"])) {
     $title = se($_POST, "title", null, false);

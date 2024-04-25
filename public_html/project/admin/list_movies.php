@@ -1,7 +1,7 @@
 <?php
 //note we need to go up 1 more directory
 require(__DIR__ . "/../../../partials/nav.php");
-
+//na569, 4.24.24
 if (!has_role("Admin")) {
     flash("You don't have permission to view this page", "warning");
     die(header("Location: $BASE_PATH" . "/home.php"));
@@ -65,8 +65,8 @@ if (isset($_GET['limit'])) {
         flash("Limit must be a number between 1 and 100", "warning");
     }
 }
+//na569, 4.24.24
 ?>
-
 <!-- Search Form -->
 <div style="text-align: center;">
 <form method="GET">
@@ -89,7 +89,7 @@ if (isset($_GET['limit'])) {
     <button type="submit">Search</button>
 </form>
 
-<?php
+<?php //na569, 4.24.24
 $table = ["data" => $results, "title" => "Search Movies", "ignored_columns" => ["id"], "edit_url" => get_url("admin/edit_movie.php")];
 ?>
 <?php if (empty($results)) : ?>

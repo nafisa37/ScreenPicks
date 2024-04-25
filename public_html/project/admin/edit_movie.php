@@ -2,7 +2,6 @@
 require_once(__DIR__ . "/../../../partials/nav.php");
 is_logged_in(true);
 ?>
-
 <?php
 
 if (isset($_GET["id"])) {
@@ -24,7 +23,6 @@ if (isset($_GET["id"])) {
     }
 }
 ?>
-
 <script>
     function validate(form) {
         //console.log("hello");
@@ -44,7 +42,7 @@ if (isset($_GET["id"])) {
     }
 </script>
 
-<?php
+<?php //na569, 4.24.24
 if (isset($_POST["save"])) {
     $title = se($_POST, "title", null, false);
     $genre = se($_POST, "genre", null, false);
@@ -78,7 +76,6 @@ if (isset($_POST["save"])) {
     }
 }
 ?>
-
 <div class="container-fluid">
     <form method="POST" onsubmit="return validate(this);">
         <?php render_input(["type" => "text", "id" => "title", "name" => "title", "label" => "Title", "value" => $title, "rules" => ["required" => true]]); ?>

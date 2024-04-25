@@ -1,4 +1,4 @@
-.alert-success {
+/* .alert-success {
     background-color: green;
     padding: 10px;
     font-family:sans-serif;
@@ -24,63 +24,72 @@
     padding: 10px;
     font-family:sans-serif;
 
-}
+} */
 /*nav li{display: inline; background-color: blanchedalmond;}*/
 nav{
-    margin-bottom: 25px;
+    margin-bottom: 25px !important;
 }
 nav li a{
-    color: black;
-    margin-left: 25px;
-    font-family:sans-serif;
+    color: black !important;
+    margin-left: 25px !important;
+    font-family:sans-serif !important;
 
 }
 input{
-    margin-top: 15x;
-    margin-bottom: 10px;
+    margin-top: 15x !important;
+    margin-bottom: 10px !important;
 }
 input[type=text]:focus {
-    border: 3px solid #555;
+    border: 3px solid #555 !important;
 }
 label{
-    font-family:sans-serif;
+    font-family:sans-serif !important;
 }
 body{
-    background-color: #FBF8EF;
-    color: black;
+    background-color: #FBF8EF !important;
+    color: black !important;
 
 }
 nav ul {
-    list-style: none;
-    padding: 0;
-    margin: 0;
+    list-style: none !important;
+    padding: 0 !important;
+    margin: 0 !important;
 }
 
 /* Style the navigation links */
 nav a {
-    text-decoration: none;
-    color: #333; /* Change to your desired link color */
-    font-weight: bold;
-    transition: color 0.3s ease;
+    text-decoration: none !important;
+    color: #333 !important; /* Change to your desired link color */
+    font-weight: bold !important;
+    transition: color 0.3s ease !important;
 }
 nav a:hover {
-    color: navy; /* Change to your desired hover color */
+    color: navy !important; /* Change to your desired hover color */
 }
 
 /* Add spacing between list items */
 nav li {
-    display: inline;
-    margin-bottom: 10px;
+    display: inline !important;
+    margin-bottom: 10px !important;
 }
 input[type=submit] {
-    transition-duration: 0.4s;
-    border-radius: 3px;
-    background-color: lightgray;
-    color: black;
-    padding: 5px;
-    font-family:sans-serif;
+    transition-duration: 0.4s !important;
+    border-radius: 3px !important;
+    background-color: lightgray !important;
+    color: black !important;
+    padding: 5px !important;
+    font-family:sans-serif !important;
 }
 h3{
-    font-family: 'Calibri';
+    font-family: 'Calibri' !important;
 }
-  
+.bg-success{
+    background-color: pink !important;
+}
+.nav-link{
+    color: black !important;
+}
+.btn-secondary{
+    --bs-btn-color: black !important;
+    --bs-btn-bg: pink !important;
+}

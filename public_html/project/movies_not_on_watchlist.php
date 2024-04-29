@@ -1,11 +1,11 @@
 <?php
 //note we need to go up 1 more directory
-require(__DIR__ . "/../../../partials/nav.php");
+require(__DIR__ . "/../../partials/nav.php");
 //na569, 4.24.24
-if (!has_role("Admin")) {
-    flash("You don't have permission to view this page", "warning");
-    die(header("Location: $BASE_PATH" . "/home.php"));
-}
+// if (!has_role("Admin")) {
+//     flash("You don't have permission to view this page", "warning");
+//     die(header("Location: $BASE_PATH" . "/home.php"));
+// }
 
 $genre = isset($_GET['genre']) ? $_GET['genre'] : '';
 $title = isset($_GET['title']) ? $_GET['title'] : '';
@@ -13,7 +13,7 @@ $released = isset($_GET['released']) ? $_GET['released'] : '';
 $limit = isset($_GET['limit']) ? intval($_GET['limit']) : 10; // Default to 10
 $limit = max(1, min($limit, 100));
 
-$query = "SELECT id, title AS Title, genre as Genre, released as Released, synopsis as Synopsis FROM `Movies` WHERE 1=1";
+$query = "SELECT id, title AS Title, genre as Genre, released as Released, synopsis as Synopsis FROM `Movies` WHERE id NOT IN (SELECT movie_id FROM UserMovies)";
 $params = [];
 if (!empty($genre)) {
     $query .= " AND genre LIKE :genre";
@@ -66,9 +66,28 @@ if (isset($_GET['limit'])) {
     }
 }
 //na569, 4.24.24
+
+//$query = "SELECT COUNT(*) AS total_count FROM UserMovies WHERE user_id = :user_id";
+$query = "SELECT COUNT(*) AS total_count FROM Movies WHERE id NOT IN (SELECT DISTINCT movie_id FROM UserMovies )";
+//$params = [":user_id" => get_user_id()];
+
+// Execute the query to fetch the count
+$db = getDB();
+try {
+    $stmt = $db->prepare($query);
+    $stmt->execute();
+    $row = $stmt->fetch(PDO::FETCH_ASSOC);
+    $total_count = $row['total_count'];
+} catch (PDOException $e) {
+    error_log("Error fetching total count: " . $e->getMessage());
+    flash("An error occurred", "danger");
+    $total_count = 0;
+}
 ?>
 <!-- Search Form -->
 <div style="text-align: center;">
+<div class="container-fluid">
+    <h2>Movies Not On My Watchlist (Total Items: <?php echo $total_count; ?>)</h2>
 <form method="GET">
     <div>
         <label for="genre">Genre:</label>
@@ -115,8 +134,6 @@ $table = ["data" => $results, "title" => "Search Movies", "ignored_columns" => [
                         <td><?php echo htmlspecialchars($row['Synopsis']); ?></td>
                         <td>
                             <a href="movie_details.php?id=<?php echo $row['id']; ?>" class="btn btn-secondary">View Details</a>
-                            <a href="edit_movie.php?id=<?php echo $row['id']; ?>" class="btn btn-secondary">Edit</a>
-                            <a href="delete_movie.php?id=<?php echo $row['id']; ?>" class="btn btn-secondary">Delete</a>
                         </td>
                     </tr>
                 <?php endforeach; ?>
@@ -127,5 +144,5 @@ $table = ["data" => $results, "title" => "Search Movies", "ignored_columns" => [
 
 <?php
 //note we need to go up 1 more directory
-require_once(__DIR__ . "/../../../partials/flash.php");
+require_once(__DIR__ . "/../../partials/flash.php");
 ?>

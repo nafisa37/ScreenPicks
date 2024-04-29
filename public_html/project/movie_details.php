@@ -1,10 +1,10 @@
 <?php
-require_once(__DIR__ . "/../../../partials/nav.php");
+require_once(__DIR__ . "/../../partials/nav.php");
 is_logged_in(true);
 
 //require(__DIR__ . "/../../../lib/db.php");
 
-
+//na569,4.24.24
 $movieDetails = null;
 $movieId = isset($_GET['id']) ? intval($_GET['id']) : null;
 
@@ -28,7 +28,7 @@ if ($movieId === null || $movieId <= 0) {
         exit();
     }
 }
-
+//na569, 4.24.24
 echo '<div style="text-align: center;">';
 echo "<h2>{$movieDetails['title']}</h2>";
 echo "<p><strong>Genre:</strong> {$movieDetails['genre']} </p>";

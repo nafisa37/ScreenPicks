@@ -118,7 +118,7 @@ if (isset($_POST["title"])) {
                 <tr>
                     <td>
                         <table class="table">
-                            <?php foreach ($users as $user) : ?> //na569, 4.30.24
+                            <?php foreach ($users as $user) : ?>
                                 <tr>
                                     <td>
                                         <?php render_input(["type" => "checkbox", "id" => "user_" . se($user, 'id', "", false), "name" => "users[]", "label" => se($user, "username", "", false), "value" => se($user, 'id', "", false)]); ?>

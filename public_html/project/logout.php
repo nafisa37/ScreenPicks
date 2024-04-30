@@ -1,5 +1,5 @@
-//na569, 4.1.24
 <?php
+//na569, 4.1.24
 session_start();
 require(__DIR__ . "/../../lib/functions.php");
 reset_session();

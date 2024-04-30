@@ -18,10 +18,10 @@ $query = "DELETE FROM `UserMovies` WHERE movie_id = :id";
 try {
     $stmt = $db->prepare($query);
     $stmt->execute([":id" => $id]);
-    flash("Deleted record with id $id", "success");
+    flash("Deleted record from watchlist with id $id", "success");
 } catch (Exception $e) {
-    error_log("Error deleting movie $id" . var_export($e, true));
-    flash("Error deleting record", "danger");
+    error_log("Error deleting movie $id from watchlist" . var_export($e, true));
+    flash("Error deleting record from watchlist", "danger");
 }
 
 redirect("watchlist.php");

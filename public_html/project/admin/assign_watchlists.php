@@ -7,7 +7,7 @@ if (!has_role("Admin")) {
     die(header("Location: $BASE_PATH" . "/home.php"));
 }
 
-// Attempt to apply associations
+// Attempt to apply associations, na569, 4.30.24
 if (isset($_POST["users"]) && isset($_POST["movies"])) {
     $user_ids = $_POST["users"];
     $movie_ids = $_POST["movies"];
@@ -53,7 +53,7 @@ try {
     flash(var_export($e->errorInfo, true), "danger");
 }
 
-// Search for user by username
+// Search for user by username, na569, 4.30.24
 $users = [];
 $username = "";
 if (isset($_POST["username"])) {
@@ -118,7 +118,7 @@ if (isset($_POST["title"])) {
                 <tr>
                     <td>
                         <table class="table">
-                            <?php foreach ($users as $user) : ?>
+                            <?php foreach ($users as $user) : ?> //na569, 4.30.24
                                 <tr>
                                     <td>
                                         <?php render_input(["type" => "checkbox", "id" => "user_" . se($user, 'id', "", false), "name" => "users[]", "label" => se($user, "username", "", false), "value" => se($user, 'id', "", false)]); ?>
@@ -137,7 +137,7 @@ if (isset($_POST["title"])) {
                 </tr>
             </tbody>
         </table>
-        <?php render_button(["text" => "Add Movies to Watchlists", "type" => "submit", "color" => "secondary"]); ?>
+        <?php render_button(["text" => "Add/Remove Movies to Watchlists", "type" => "submit", "color" => "secondary"]); ?>
     </form>
 </div>
 

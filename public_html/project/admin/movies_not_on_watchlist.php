@@ -1,11 +1,11 @@
 <?php
 //note we need to go up 1 more directory
-require(__DIR__ . "/../../partials/nav.php");
+require(__DIR__ . "/../../../partials/nav.php");
 //na569, 4.24.24
-// if (!has_role("Admin")) {
-//     flash("You don't have permission to view this page", "warning");
-//     die(header("Location: $BASE_PATH" . "/home.php"));
-// }
+ if (!has_role("Admin")) {
+     flash("You don't have permission to view this page", "warning");
+     die(header("Location: $BASE_PATH" . "/home.php"));
+ }
 
 $genre = isset($_GET['genre']) ? $_GET['genre'] : '';
 $title = isset($_GET['title']) ? $_GET['title'] : '';
@@ -13,7 +13,8 @@ $released = isset($_GET['released']) ? $_GET['released'] : '';
 $limit = isset($_GET['limit']) ? intval($_GET['limit']) : 10; // Default to 10
 $limit = max(1, min($limit, 100));
 
-$query = "SELECT id, title AS Title, genre as Genre, released as Released, synopsis as Synopsis FROM `Movies` WHERE id NOT IN (SELECT movie_id FROM UserMovies)";
+$query = "SELECT id, title AS Title, genre as Genre, released as Released, synopsis as Synopsis FROM `Movies`
+            WHERE id NOT IN (SELECT movie_id FROM UserMovies)";
 $params = [];
 if (!empty($genre)) {
     $query .= " AND genre LIKE :genre";
@@ -38,7 +39,7 @@ try {
     error_log("Error fetching movies " . var_export($e, true));
     flash("Unhandled error occurred", "danger");
 }
-
+//na569, 4.30.24
 ?>
 
 <script>
@@ -87,7 +88,9 @@ try {
 <!-- Search Form -->
 <div style="text-align: center;">
 <div class="container-fluid">
-    <h2>Movies Not On My Watchlist (Total Items: <?php echo $total_count; ?>)</h2>
+    <h2>Movies Not On A WatchList</h2>
+        <h3> Total Number of Movies On Watchlists: <?php echo $total_count; ?></h3>
+        <h4>Total Items On Page: <?php echo count($results); ?></h4>
 <form method="GET">
     <div>
         <label for="genre">Genre:</label>
@@ -109,7 +112,7 @@ try {
 </form>
 
 <?php //na569, 4.24.24
-$table = ["data" => $results, "title" => "Search Movies", "ignored_columns" => ["id"], "edit_url" => get_url("admin/edit_movie.php")];
+$table = ["data" => $results, "title" => "Search Movies", "ignored_columns" => ["id"], "edit_url" => get_url("../edit_movie.php")];
 ?>
 <?php if (empty($results)) : ?>
     <div>No results available.</div>
@@ -133,7 +136,7 @@ $table = ["data" => $results, "title" => "Search Movies", "ignored_columns" => [
                         <td><?php echo htmlspecialchars($row['Released']); ?></td>
                         <td><?php echo htmlspecialchars($row['Synopsis']); ?></td>
                         <td>
-                            <a href="movie_details.php?id=<?php echo $row['id']; ?>" class="btn btn-secondary">View Details</a>
+                            <a href="../movie_details.php?id=<?php echo $row['id']; ?>" class="btn btn-secondary">View Details</a>
                         </td>
                     </tr>
                 <?php endforeach; ?>
@@ -144,5 +147,5 @@ $table = ["data" => $results, "title" => "Search Movies", "ignored_columns" => [
 
 <?php
 //note we need to go up 1 more directory
-require_once(__DIR__ . "/../../partials/flash.php");
+require_once(__DIR__ . "/../../../partials/flash.php");
 ?>

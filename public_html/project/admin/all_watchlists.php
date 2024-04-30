@@ -53,7 +53,7 @@ if (!empty($released)) {
 $query .= " GROUP BY m.id, m.title, m.genre, m.released, m.synopsis, u.id, u.username
             ORDER BY m.created DESC LIMIT $limit";
 
-// Execute the query
+// Execute the query, na569, 4.30.24
 $db = getDB();
 $stmt = $db->prepare($query);
 try {

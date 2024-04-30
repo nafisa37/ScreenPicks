@@ -1,13 +1,13 @@
 <?php
 //note we need to go up 1 more directory
-require(__DIR__ . "/../../../partials/nav.php");
+require(__DIR__ . "/../../partials/nav.php");
 //require_once(__DIR__ . "/../../../lib/movie_api.php");
 
 //na569, 4.24.24
-if (!has_role("Admin")) {
-    flash("You don't have permission to view this page", "warning");
-    die(header("Location: $BASE_PATH" . "/home.php"));
-}
+// if (!has_role("Admin")) {
+//     flash("You don't have permission to view this page", "warning");
+//     die(header("Location: $BASE_PATH" . "/home.php"));
+// }
 ?>
 
 <?php
@@ -200,5 +200,5 @@ if (isset($_POST["save"])) {
 
 <?php
 //note we need to go up 1 more directory
-require_once(__DIR__ . "/../../../partials/flash.php");
+require_once(__DIR__ . "/../../partials/flash.php");
 ?>

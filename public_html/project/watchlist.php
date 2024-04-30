@@ -7,7 +7,7 @@ require_once(__DIR__ . "/../../lib/functions.php");
 //     flash("You don't have permission to view this page", "warning");
 //     die(header("Location: $BASE_PATH" . "/home.php"));
 // }
-
+//na569, 4.30.24
 $user_id = get_user_id();
 
 if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST["clear_watchlist"])) {
@@ -17,8 +17,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST["clear_watchlist"])) {
     try {
         $stmt->execute([":user_id" => $user_id]);
         flash("Watchlist cleared successfully", "success");
-        // Redirect to refresh the page
-        die(header("Location: " . get_url("admin/watchlist.php")));
+        die(header("Location: " . get_url("watchlist.php")));
         exit;
     } catch (PDOException $e) {
         error_log("Error clearing watchlist: " . $e->getMessage());
@@ -51,7 +50,7 @@ if (!empty($released)) {
 }
 $query .= " ORDER BY m.created DESC LIMIT $limit";
 
-// Execute the query
+// Execute the query, na569, 4/30/24
 $db = getDB();
 $stmt = $db->prepare($query);
 try {
@@ -65,24 +64,26 @@ try {
 $query = "SELECT COUNT(*) AS total_count FROM UserMovies WHERE user_id = :user_id";
 $params = [":user_id" => $user_id];
 
-// Execute the query to fetch the count
+// Execute the query to fetch the count, na569, 4.30.24
 $db = getDB();
 try {
     $stmt = $db->prepare($query);
     $stmt->execute($params);
     $row = $stmt->fetch(PDO::FETCH_ASSOC);
-    $total_count = $row['total_count'];
+    $totalItemsCount = $row['total_count'];
 } catch (PDOException $e) {
     error_log("Error fetching total count: " . $e->getMessage());
     flash("An error occurred while fetching total count", "danger");
-    $total_count = 0;
+    $totalItemsCount = 0;
 }
 
 ?>
 
 <div style="text-align: center;">
 <div class="container-fluid">
-    <h2>My Watchlist (Total Items: <?php echo $total_count; ?>)</h2>
+    <h2>My Watchlist</h2>
+        <h3> Total Number of Movies On Watchlists: <?php echo $totalItemsCount; ?></h3>
+        <h4>Total Items On Page: <?php echo count($results); ?></h4>
     <form method="GET">
         <div>
             <label for="genre">Genre:</label>

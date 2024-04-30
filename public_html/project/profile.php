@@ -8,7 +8,7 @@ try {
     //we know it's a data format issue
 }
 if ($user_id < 1) {
-    $user_id = get_user_id(); //get our id if we're logged in
+    $user_id = get_user_id(); //get our id if we're logged in //na569, 4.30.24
 }
 $is_me = $user_id == get_user_id();
 $is_edit = isset($_GET["edit"]);

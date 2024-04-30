@@ -1,9 +1,20 @@
 <?php
 require_once(__DIR__ . "/../../partials/nav.php");
-is_logged_in(true);
+//is_logged_in(true);
+$user_id = -1;
+try {
+    $user_id = (int)se($_GET, "id", -1, false);
+} catch (Exception $e) {
+    //we know it's a data format issue
+}
+if ($user_id < 1) {
+    $user_id = get_user_id(); //get our id if we're logged in
+}
+$is_me = $user_id == get_user_id();
+$is_edit = isset($_GET["edit"]);
 ?>
 <?php
-if (isset($_POST["save"])) {
+if ($is_me && $is_edit && isset($_POST["save"])) {
     $email = se($_POST, "email", null, false);
     $username = se($_POST, "username", null, false);
     $hasError = false;
@@ -90,76 +101,63 @@ if (isset($_POST["save"])) {
 ?>
 
 <?php
-$email = get_user_email();
-$username = get_username();
+$user = [];
+if ($user_id > 0) {
+    $db = getDB();
+    $query = "SELECT email, username, created FROM Users where id = :user_id";
+    try {
+        $stmt = $db->prepare($query);
+        $stmt->execute([":user_id" => $user_id]);
+        $r = $stmt->fetch();
+        if ($r) {
+            $user = $r;
+        } else {
+            flash("Couldn't find user profile", "warning");
+        }
+    } catch (PDOException $e) {
+        error_log("Error fetching user: " . var_export($e, true));
+        flash("Error fetching user", "danger");
+    }
+}
 ?>
 <div class="container-fluid">
-    <form method="POST" onsubmit="return validate(this);">
-        <?php render_input(["type" => "email", "id" => "email", "name" => "email", "label" => "Email", "value" => $email, "rules" => ["required" => true]]); ?>
-        <?php render_input(["type" => "text", "id" => "username", "name" => "username", "label" => "Username", "value" => $username, "rules" => ["required" => true, "maxlength" => 30]]); ?>
-        <!-- DO NOT PRELOAD PASSWORD -->
-        <div class="lead">Password Reset</div>
-        <?php render_input(["type" => "password", "id" => "cp", "name" => "currentPassword", "label" => "Current Password", "rules" => ["minlength" => 8]]); ?>
-        <?php render_input(["type" => "password", "id" => "np", "name" => "newPassword", "label" => "New Password", "rules" => ["minlength" => 8]]); ?>
-        <?php render_input(["type" => "password", "id" => "conp", "name" => "confirmPassword", "label" => "Confirm Password", "rules" => ["minlength" => 8]]); ?>
-        <?php render_input(["type" => "hidden", "name" => "save"]);/*lazy value to check if form submitted, not ideal*/ ?>
-        <?php render_button(["text" => "Update Profile", "type" => "submit"]); ?>
-    </form>
+    <?php if ($is_me && $is_edit) : ?>
+        <a class="btn btn-secondary btn-sm" href="?">View</a>
+        <form method="POST" onsubmit="return validate(this);">
+            <?php render_input(["type" => "email", "id" => "email", "name" => "email", "label" => "Email", "value" => se($user, "email", "", false), "rules" => ["required" => true]]); ?>
+            <?php render_input(["type" => "text", "id" => "username", "name" => "username", "label" => "Username", "value" => se($user, "username", "", false), "rules" => ["required" => true, "maxlength" => 30]]); ?>
+            <!-- DO NOT PRELOAD PASSWORD -->
+            <div class="lead">Password Reset</div>
+            <?php render_input(["type" => "password", "id" => "cp", "name" => "currentPassword", "label" => "Current Password", "rules" => ["minlength" => 8]]); ?>
+            <?php render_input(["type" => "password", "id" => "np", "name" => "newPassword", "label" => "New Password", "rules" => ["minlength" => 8]]); ?>
+            <?php render_input(["type" => "password", "id" => "conp", "name" => "confirmPassword", "label" => "Confirm Password", "rules" => ["minlength" => 8]]); ?>
+            <?php render_input(["type" => "hidden", "name" => "save"]);/*lazy value to check if form submitted, not ideal*/ ?>
+            <?php render_button(["text" => "Update Profile", "type" => "submit"]); ?>
+        </form>
+    <?php else : ?>
+        <?php if ($is_me) : ?>
+            <a class="btn btn-secondary btn-sm" href="?edit">Edit</a>
+        <?php endif; ?>
+        <div class="card">
+            <div class="card-body">
+                <div class="h4">Username: <?php se($user, "username"); ?></div>
+                <div class="text-body">Joined: <?php se($user, "created"); ?></div>
+            </div>
+        </div>
+    <?php endif; ?>
 </div>
 
 <script>
     function validate(form) {
-        // let pw = form.newPassword.value;
-        // let con = form.confirmPassword.value;
-        // let isValid = true;
-        // //TODO add other client side validation....
-
-        // //example of using flash via javascript
-        // //find the flash container, create a new element, appendChild
-        // if (pw !== con) {
-        //     flash("Password and Confirm password must match", "warning");
-        //     isValid = false;
-        // }
-        // return isValid;
-        let email = form.email.value;
-        let username = form.username.value;
-        let password = form.password.value;
-        let confirmpassword = form.confirm.value;
+        let pw = form.newPassword.value;
+        let con = form.confirmPassword.value;
         let isValid = true;
+        //TODO add other client side validation....
 
-        let validEmail = /^([a-z0-9_\.\+-]+)@([\da-z\.-]+)\.([a-z\.]{2,6})$/;
-        let validUsername = /^[a-zA-Z0-9_-]{3,16}$/;
-
-        if (email.length < 1) {
-            flash("[Client] Email cannot be empty", "warning");
-            isValid = false;
-        }
-        if (username.length < 1) {
-            flash("[Client] Username cannot be empty", "warning");
-            isValid = false;
-        }
-        if (password.length < 1) {
-            flash("[Client] Password cannot be empty", "warning");
-            isValid = false;
-        }
-        if (confirmpassword.length < 1) {
-            flash("[Client] Confirm password cannot be empty", "warning");
-            isValid = false;
-        }
-        if (!validEmail.test(email)) {
-            flash("[Client] Invalid email address", "warning");
-            isValid = false;
-        }
-        if (!validUsername.test(username)) {
-            flash("[Client] Username must only contain 3-16 characters a-z, 0-9, _, or -", "warning");
-            isValid = false;
-        }
-        if (password.length < 8) {
-            flash("[Client] Password must be at least 8 characters", "warning");
-            isValid = false;
-        }
-        if (password !== confirmpassword) {
-            flash("[Client] Passwords must match", "warning");
+        //example of using flash via javascript
+        //find the flash container, create a new element, appendChild
+        if (pw !== con) {
+            flash("Password and Confrim password must match", "warning");
             isValid = false;
         }
         return isValid;

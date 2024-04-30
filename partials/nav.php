@@ -40,6 +40,9 @@ session_start();
                 <?php if (is_logged_in()) : ?>
                     <li class="nav-item"><a class="nav-link" href="<?php echo get_url('home.php'); ?>">Home</a></li>
                     <li class="nav-item"><a class="nav-link" href="<?php echo get_url('profile.php'); ?>">Profile</a></li>
+                    <li class="nav-item"><a class="nav-link" href="<?php echo get_url('list_movies.php'); ?>">View Movies</a></li>
+                    <li class="nav-item"><a class="nav-link" href="<?php echo get_url('watchlist.php'); ?>">View WatchList</a></li>
+                    <li class="nav-item"><a class="nav-link" href="<?php echo get_url('create_movie.php'); ?>">Create Movie</a></li>
                 <?php endif; ?>
                 <?php if (!is_logged_in()) : ?>
                     <li class="nav-item"><a class="nav-link" href="<?php echo get_url('login.php'); ?>">Login</a></li>
@@ -54,6 +57,9 @@ session_start();
                             <li><a class="dropdown-item" href="<?php echo get_url('admin/create_role.php'); ?>">Create Role</a></li>
                             <li><a class="dropdown-item" href="<?php echo get_url('admin/list_roles.php'); ?>">List Roles</a></li>
                             <li><a class="dropdown-item" href="<?php echo get_url('admin/assign_roles.php'); ?>">Assign Roles</a></li>
+                            <li><a class="dropdown-item" href="<?php echo get_url('admin/assign_watchlists.php'); ?>">Assign WatchLists</a></li>
+                            <li><a class="dropdown-item" href="<?php echo get_url('admin/all_watchlists.php'); ?>">View All WatchLists</a></li>
+                            <li><a class="dropdown-item" href="<?php echo get_url('admin/movies_not_on_watchlist.php'); ?>">View Movies Not on WatchList</a></li>
                         </ul>
                     </li>
                 <?php endif; ?>

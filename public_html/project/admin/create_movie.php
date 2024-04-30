@@ -73,10 +73,9 @@ if (isset($_POST["action"])) {
     }
 }
 
-//TODO handle manual create movie
+//TODO handle manual create movie //na569, 4.24.24
 ?>
 
-//na569, 4.24.24
 <div class="container-fluid">
     <h3>Fetch or Create Movie</h3>
     <ul class="nav nav-tabs">
@@ -154,8 +153,9 @@ if (isset($_POST["action"])) {
         }
 
         return isValid;
+        //na569, 4.24.24
     }
-</script> //na569, 4.24.24
+</script>
 <?php
 if (isset($_POST["save"])) {
     $title = se($_POST, "title", null, false);

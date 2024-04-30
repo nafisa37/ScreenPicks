@@ -10,7 +10,7 @@ require(__DIR__ . "/../../lib/functions.php");
 $id = se($_GET, "id", -1, false);
 if ($id < 1) {
     flash("Invalid id passed to delete", "danger");
-    die(header("Location: " . get_url("admin/watchlist.php")));
+    die(header("Location: " . get_url("../watchlist.php")));
 }
 
 $db = getDB();
@@ -24,7 +24,7 @@ try {
     flash("Error deleting record", "danger");
 }
 
-redirect("admin/watchlist.php");
+redirect("watchlist.php");
 
 // if (isset($_SERVER['HTTP_REFERER'])) {
 //     $previousPage = $_SERVER['HTTP_REFERER'];

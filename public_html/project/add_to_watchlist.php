@@ -10,7 +10,7 @@ require(__DIR__ . "/../../lib/functions.php");
 $id = se($_GET, "id", -1, false);
 if ($id < 1) {
     flash("Invalid id passed to add to watchlist", "danger");
-    die(header("Location: " . get_url("admin/list_movies.php")));
+    die(header("Location: " . get_url("list_movies.php")));
 }
 
 // if (isset($_SESSION['user_id'])) {

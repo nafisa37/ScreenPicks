@@ -89,7 +89,7 @@ try {
 <div style="text-align: center;">
 <div class="container-fluid">
     <h2>Movies Not On A WatchList</h2>
-        <h3> Total Number of Movies On Watchlists: <?php echo $total_count; ?></h3>
+        <h3> Total Number of Movies Not On Watchlists: <?php echo $total_count; ?></h3>
         <h4>Total Items On Page: <?php echo count($results); ?></h4>
 <form method="GET">
     <div>

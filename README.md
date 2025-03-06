@@ -1,1 +1,1 @@
-# na569-it202-008
+ScreenPicks is a full stack web app application I built from scratch that pulls movie data from an external API, letting users create and manage their own watchlists. I used SQL to implement CRUD features like filtering, sorting, and pagination to make the database easier to sort through, and even handle duplicates automatically. Users can sign up, log in, edit profiles, and reset passwords, with everything secured through password hashing and session management.
